@@ -1,7 +1,7 @@
 package requestid
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 
 	uuid "github.com/satori/go.uuid"
@@ -12,12 +12,7 @@ func RequestID(next http.Handler) http.Handler {
 		rid := r.Header.Get("X-Request-ID")
 		if rid == "" {
 			// Creating UUID Version 1
-			uuid1 := uuid.NewV1()
-			rid, err := uuid1
-			if err != nil {
-				log.Println(err)
-			}
-			r.Header.Set("X-Request-ID", rid)
+			r.Header.Set("X-Request-ID", fmt.Sprintf("%s", uuid.NewV1()))
 		}
 		next.ServeHTTP(w, r)
 	})
