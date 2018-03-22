@@ -12,7 +12,7 @@ func RequestID(next http.Handler) http.Handler {
 		rid := r.Header.Get("X-Request-ID")
 		if rid == "" {
 			// Creating UUID Version 1
-			r.Header.Set("X-Request-ID", fmt.Sprintf("%s", uuid.NewV1()))
+			r.Header.Set("X-Request-ID", fmt.Sprintf("%s", uuid.Must(uuid.NewV1())))
 		}
 		next.ServeHTTP(w, r)
 	})
